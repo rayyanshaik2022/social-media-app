@@ -1,6 +1,20 @@
-import { Flex, Grid, Image, Text, Heading, Box } from "@chakra-ui/react";
+import {
+  Flex,
+  Grid,
+  Image,
+  Text,
+  Heading,
+  Box,
+  Input,
+  InputGroup,
+  InputRightElement,
+  Icon,
+  Button
+} from "@chakra-ui/react";
 import { useMediaQuery } from "@chakra-ui/react";
 
+import { SearchIcon } from "@chakra-ui/icons";
+import { FaUser, FaLock } from "react-icons/fa";
 import eatingSushi from "../assets/eatingsushi.svg";
 
 function Signin() {
@@ -38,12 +52,50 @@ function Signin() {
           bg={"white"}
           flexDir={"column"}
           alignItems={"center"}
-          p={32}
+          p={48}
+          pt={24}
+          gap={12}
         >
           <Box boxSize={24} bg={"blue.700"} borderRadius={8}></Box>
-          <Flex flexDir={"column"} alignItems={"center"}>
-            <Heading as={"h1"}>Welcome back!</Heading>
-            <Heading as={"h2"}>Log-in to browse your favorite content</Heading>
+          <Flex flexDir={"column"} alignItems={"center"} gap={2}>
+            <Heading as={"h1"} fontWeight={"500"} fontSize={"5xl"}>
+              Welcome back!
+            </Heading>
+            <Heading
+              as={"h2"}
+              fontWeight={"400"}
+              fontSize={"xl"}
+              color={"gray.500"}
+            >
+              Log-in to browse your favorite content
+            </Heading>
+          </Flex>
+          <Flex flexDir={"column"} alignItems={"center"} gap={6} w={"100%"}>
+            <InputGroup w={"100%"} bg={"gray.50"}>
+              <InputRightElement pointerEvents="none" mt={2} mr={2}>
+                <Icon as={FaUser} color="gray.300" boxSize={6} />
+              </InputRightElement>
+              <Input
+                type="text"
+                placeholder="Username"
+                color={"gray.600"}
+                h={14}
+                fontSize={"17px"}
+              />
+            </InputGroup>
+            <InputGroup w={"100%"} bg={"gray.50"}>
+              <InputRightElement pointerEvents="none" mt={2} mr={2}>
+                <Icon as={FaLock} color="gray.300" boxSize={6} />
+              </InputRightElement>
+              <Input
+                type="password"
+                placeholder="Password"
+                color={"gray.600"}
+                h={14}
+                fontSize={"17px"}
+              />
+            </InputGroup>
+            <Button size={"lg"} colorScheme="blue" width={"100%"} mt={16}>Login</Button>
           </Flex>
         </Flex>
       </Grid>
