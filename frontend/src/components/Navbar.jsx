@@ -8,26 +8,24 @@ import {
   Avatar,
   Text,
   Spacer,
+  IconButton,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
 } from "@chakra-ui/react";
 
 import { useMediaQuery } from "@chakra-ui/react";
 
 import { SearchIcon, HamburgerIcon } from "@chakra-ui/icons";
-import { FaUser, FaBell } from "react-icons/fa";
+import { FaUser, FaBell, FaHome, FaUsers } from "react-icons/fa";
 
 function Navbar() {
   const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
 
   if (isLargerThan768) {
     return (
-      <Flex
-        w={"100%"}
-        h={"110px"}
-        bg={"white"}
-        alignItems={"center"}
-    
-        top={0}
-      >
+      <Flex w={"100%"} h={"110px"} bg={"white"} alignItems={"center"} top={0}>
         <Box
           as="div"
           className="icon-placeholder"
@@ -62,8 +60,8 @@ function Navbar() {
             Rayyan Shaik
           </Text>
           <Box w={"2px"} h={"40px"} bg={"gray.100"}></Box>
-          <Icon as={FaBell} boxSize={6} color={"#a6e2f5"} />
-          <Icon as={FaUser} boxSize={6} color={"#a6e2f5"} />
+          <Icon as={FaBell} boxSize={6} color={"#9ac9f5"} />
+          <Icon as={FaUser} boxSize={6} color={"#9ac9f5"} />
         </Flex>
       </Flex>
     );
@@ -79,8 +77,22 @@ function Navbar() {
         top={0}
         justifyContent={"space-between"}
       >
+        <Menu>
+          <MenuButton
+            as={IconButton}
+            aria-label="Options"
+            icon={<HamburgerIcon boxSize={6} color={"gray.600"}/>}
+            variant="outline"
+            ml={4}
+            mr={8}
+            boxSize={10}
+          />
+          <MenuList>
+            <MenuItem icon={<FaHome />}>Home</MenuItem>
+            <MenuItem icon={<FaUsers />}>Groups</MenuItem>
+          </MenuList>
+        </Menu>
 
-        <Icon as={HamburgerIcon} boxSize={6} color={"gray.700"} ml={4} mr={8}/>
         <Box
           as="div"
           className="icon-placeholder"
@@ -92,8 +104,8 @@ function Navbar() {
         ></Box>
 
         <Flex alignItems={"center"} gap={"16px"} mr={4}>
-          <Icon as={FaBell} boxSize={6} color={"#a6e2f5"} />
-          <Icon as={FaUser} boxSize={6} color={"#a6e2f5"} />
+          <Icon as={FaBell} boxSize={6} color={"#9ac9f5"} />
+          <Icon as={FaUser} boxSize={6} color={"#9ac9f5"} />
         </Flex>
       </Flex>
     );

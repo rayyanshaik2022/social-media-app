@@ -13,7 +13,7 @@ function SideBar() {
 
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: "framework",
-    defaultValue: "react",
+    defaultValue: "Home",
     onChange: console.log,
   });
 
