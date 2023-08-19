@@ -9,6 +9,7 @@ import {
   InputRightElement,
   Icon,
   Button,
+  Link
 } from "@chakra-ui/react";
 
 import { FaUser, FaLock } from "react-icons/fa";
@@ -111,6 +112,7 @@ function Signup() {
             >
               Create Account
             </Button>
+            <Link color={"blue.400"}>Log-in as a Guest</Link>
           </Flex>
         </Flex>
       </Grid>
