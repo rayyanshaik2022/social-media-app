@@ -52,9 +52,10 @@ function Signin() {
           bg={"white"}
           flexDir={"column"}
           alignItems={"center"}
-          p={48}
-          pt={24}
+          p={{base: 4, md: 32 ,xl: 48}}
+          pt={{base: 12, xl: 24}}
           gap={12}
+          whiteSpace={"nowrap"}
         >
           <Box boxSize={24} bg={"blue.700"} borderRadius={8}></Box>
           <Flex flexDir={"column"} alignItems={"center"} gap={2}>
@@ -95,7 +96,7 @@ function Signin() {
                 fontSize={"17px"}
               />
             </InputGroup>
-            <Button size={"lg"} colorScheme="blue" width={"100%"} mt={16}>Login</Button>
+            <Button size={"lg"} colorScheme="blue" width={"100%"} mt={{base: 10, xl: 16}}>Login</Button>
           </Flex>
         </Flex>
       </Grid>
