@@ -11,7 +11,7 @@ function Home() {
       <Box w={"100vw"} h={"100vh"}>
         <Flex flexDir={"column"}>
           <Navbar />
-          <Grid w={"100%"} bg={"red"} gridTemplateColumns={"200px 1fr 440px"}>
+          <Grid w={"100%"} bg={"red"} gridTemplateColumns={{base: "0px 1fr", md:"200px 1fr", xl: "200px 1fr 440px"}}>
             <SideBar />
             <Feed />
             <RightFeed />
