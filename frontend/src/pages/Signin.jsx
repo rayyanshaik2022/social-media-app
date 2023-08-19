@@ -8,7 +8,8 @@ import {
   InputGroup,
   InputRightElement,
   Icon,
-  Button
+  Button,
+  Link
 } from "@chakra-ui/react";
 
 import { FaUser, FaLock } from "react-icons/fa";
@@ -93,6 +94,7 @@ function Signin() {
               />
             </InputGroup>
             <Button size={"lg"} colorScheme="blue" width={"100%"} mt={{base: 10, xl: 16}}>Login</Button>
+            <Link color={"blue.400"}>Log-in as a Guest</Link>
           </Flex>
         </Flex>
       </Grid>
