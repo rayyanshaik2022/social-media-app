@@ -2,7 +2,6 @@ import {
   Flex,
   Grid,
   Image,
-  Text,
   Heading,
   Box,
   Input,
@@ -11,14 +10,11 @@ import {
   Icon,
   Button
 } from "@chakra-ui/react";
-import { useMediaQuery } from "@chakra-ui/react";
 
-import { SearchIcon } from "@chakra-ui/icons";
 import { FaUser, FaLock } from "react-icons/fa";
 import eatingSushi from "../assets/eatingsushi.svg";
 
 function Signin() {
-  const [isLargerThan1000] = useMediaQuery("(min-width: 1000px)");
 
   return (
     <>
