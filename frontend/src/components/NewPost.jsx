@@ -5,7 +5,8 @@ import {
   Icon,
   Text,
   Avatar,
-  Textarea
+  Input,
+  Button,
 } from "@chakra-ui/react";
 import { AiFillPicture } from "react-icons/ai";
 
@@ -19,23 +20,37 @@ function NewPost() {
         }
         p={3}
       >
-        <Flex flexDir={"column"}>
+        <Flex flexDir={"column"} p={2}>
           <Flex gap={2}>
             <Avatar
               name="Rayyan Shaik"
               width={12}
               h={12}
               src="https://bit.ly/dan-abramov"
+              mr={2}
             />
-            <Textarea border={"none"} placeholder='Whats on your mind, Rayyan?' />
+            {/* <Textarea
+              border={"none"}
+              placeholder="Whats on your mind, Rayyan?"
+            /> */}
+            <Input
+              placeholder="Whats on your mind, Rayyan?"
+              variant="unstyled"
+              size="md"
+            />
           </Flex>
           <Flex flexDir={"column"}>
             <Divider mt={2} />
-            <Flex alignItems={"center"} gap={2} mt={2}>
-              <Icon as={AiFillPicture} boxSize={8} color={"blue.300"} />
-              <Text fontWeight={"600"} color={"gray.600"}>
-                Photo/Video
-              </Text>
+            <Flex alignItems={"center"} justifyContent={"space-between"} mt={4}>
+              <Flex alignItems={"center"} gap={2} mt={2} _hover={{cursor: "pointer"}}>
+                <Icon as={AiFillPicture} boxSize={8} color={"blue.300"} />
+                <Text fontWeight={"600"} color={"gray.600"}>
+                  Photo/Video
+                </Text>
+              </Flex>
+              <Button colorScheme="blue" variant="outline" size={"md"}>
+                Post
+              </Button>
             </Flex>
           </Flex>
         </Flex>

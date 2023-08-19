@@ -1,6 +1,6 @@
-import { Card, Flex, Image, Heading, CardHeader, CardBody } from "@chakra-ui/react";
+import { Card, Image, Heading, CardHeader, CardBody } from "@chakra-ui/react";
 
-// import adImage from "../assets/ad_image.png"
+import sideImg from "../assets/sideimg.png";
 
 
 function SponsoredCard() {
@@ -16,7 +16,7 @@ function SponsoredCard() {
             <Heading fontSize={"md"}>Sponsored</Heading>
         </CardHeader>
         <CardBody>
-            <Image src={"adImage"} />
+            <Image src={sideImg} _hover={{cursor: "pointer"}}/>
         </CardBody>
       </Card>
     );
