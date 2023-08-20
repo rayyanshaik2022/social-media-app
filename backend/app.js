@@ -10,6 +10,13 @@ const session = require("express-session");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 
+const jwt = require("jsonwebtoken");
+const User = require("./models/user");
+const crypto = require("crypto");
+
+const jwtSecret = process.env.JWT_SECRET;
+const jwtExpiresIn = process.env.JWT_EXPIRES_IN;
+
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 
@@ -64,16 +71,18 @@ app.post("/log-in", login_controller.login_user);
 app.get("/auth/me", async (req, res) => {
   const defaultReturnObject = { authenticated: false, user: null };
   try {
-    const token = String(reqheaders.authorization.replace("Bearer ", ""));
-    const decoded = jwt.verify(token, JWT_SECRET);
+    const token = String(req.headers.authorization.replace("Bearer ", ""));
+    const decoded = jwt.verify(token, jwtSecret);
 
-    const getUserReponse = await mongoDB.findOne({ email: decoded.email });
-    const { nextUser } = getUserResponse;
-    
+    const getUserResponse = await User.findOne({ username: decoded.username }).exec();
+
+    const nextUser = {...getUserResponse._doc};
+
     if (!nextUser) {
       res.status(400).json(defaultReturnObject);
       return;
     }
+    
     delete nextUser.password;
     res.status(200).json({ authenticated: true, user: nextUser });
   } catch (err) {
