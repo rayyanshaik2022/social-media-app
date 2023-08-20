@@ -2,7 +2,9 @@ const asyncHandler = require("express-async-handler");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require("../models/user");
+const  Refresh = require('../model/refresh');
 require("dotenv")
+const crypto = require('crypto');
 
 const jwtSecret  = process.env.JWT_SECRET;
 
@@ -33,4 +35,11 @@ exports.login_user = asyncHandler(async (req, res, next) => {
     error: null,
     data: { accessToken },
   });
+
+  const refreshToken = crypto.randomBytes(32).toString("hex");
+  await Refresh.create({
+    user: user._id,
+    token: refreshToken
+  })
+  res.status(200).json({ accessToken, refreshToken })
 });
