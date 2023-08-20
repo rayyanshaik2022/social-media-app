@@ -1,12 +1,13 @@
 const asyncHandler = require("express-async-handler");
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const User = require("../models/user");
-const  Refresh = require('../model/refresh');
-require("dotenv")
-const crypto = require('crypto');
+const Refresh = require("../model/refresh");
+require("dotenv");
+const crypto = require("crypto");
 
-const jwtSecret  = process.env.JWT_SECRET;
+const jwtSecret = process.env.JWT_SECRET;
+const jwtExpiresIn = process.env.JWT_EXPIRES_IN;
 
 exports.login_user = asyncHandler(async (req, res, next) => {
   const { username, password } = req.body;
@@ -17,29 +18,20 @@ exports.login_user = asyncHandler(async (req, res, next) => {
   }
 
   //Compare passwords with bcrypt.compare method
-  //the first password parameter is the one in plain text,
-  //and the second user.password is the hashed password
+  //   //the first password parameter is the one in plain text,
+  //   //and the second user.password is the hashed password
 
   const match = await bcrypt.compare(password, user.password);
   if (!match) {
     return res.status(401).json({ error: "The password is incorrect" });
   }
 
-  //generate an access token
-  const accessToken = jwt.sign(
-    { _id: user._id, email: user.email },
+  const token = jwt.sign(
+    {
+      _id: user._id,
+      username: user.username,
+    },
     jwtSecret,
-    { expiresIn: "5m" }
+    { expiresIn: jwtExpiresIn }
   );
-  res.header("authorization", accessToken).json({
-    error: null,
-    data: { accessToken },
-  });
-
-  const refreshToken = crypto.randomBytes(32).toString("hex");
-  await Refresh.create({
-    user: user._id,
-    token: refreshToken
-  })
-  res.status(200).json({ accessToken, refreshToken })
 });
