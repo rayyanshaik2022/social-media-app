@@ -3,6 +3,7 @@ require("dotenv").config();
 var createError = require("http-errors");
 var express = require("express");
 var path = require("path");
+const cors = require("cors");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const session = require("express-session");
@@ -16,6 +17,9 @@ const signup_controller = require("./controllers/signupController");
 const login_controller = require("./controllers/loginController");
 
 var app = express();
+
+// Cors
+app.use(cors());
 
 // Set up mongoose connection
 const mongoose = require("mongoose");
@@ -55,6 +59,28 @@ app.post("/sign-up", signup_controller.signup_create_post);
 
 // Handle log-in
 app.post("/log-in", login_controller.login_user);
+
+// GET USER FROM TOKEN API
+app.get("/auth/me", async (req, res) => {
+  const defaultReturnObject = { authenticated: false, user: null };
+  try {
+    const token = String(reqheaders.authorization.replace("Bearer ", ""));
+    const decoded = jwt.verify(token, JWT_SECRET);
+
+    const getUserReponse = await mongoDB.findOne({ email: decoded.email });
+    const { nextUser } = getUserResponse;
+    
+    if (!nextUser) {
+      res.status(400).json(defaultReturnObject);
+      return;
+    }
+    delete nextUser.password;
+    res.status(200).json({ authenticated: true, user: nextUser });
+  } catch (err) {
+    console.log("POST auth/me, Something Went Wrong", err);
+    res.status(400).json(defaultReturnObject);
+  }
+});
 
 // Error handle
 

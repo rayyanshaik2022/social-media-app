@@ -9,13 +9,47 @@ import {
   InputRightElement,
   Icon,
   Button,
-  Link
+  Link,
 } from "@chakra-ui/react";
 
 import { FaUser, FaLock } from "react-icons/fa";
 import eatingBreakfast from "../assets/eatingbreakfast.svg";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import axios from 'axios';
 
 function Signup() {
+  const navigate = useNavigate();
+
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const signUpPost = async () => {
+    try {
+      setIsLoading(true);
+      const response = await axios({
+        method: "POST",
+        url: "http://localhost:3000/sign-up/",
+        data: {
+          username,
+          password,
+        },
+      });
+
+      if (!response.data.token) {
+        console.log("Something went wrong during sign up: ", response);
+        return;
+      }
+      navigate("/sign-in/");
+    } catch (err) {
+      console.log("Some error occured during sign up: ", err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <>
       <Grid templateColumns={{ base: "1fr", lg: "1fr 50vw" }}>
@@ -78,6 +112,9 @@ function Signup() {
                 color={"gray.600"}
                 h={14}
                 fontSize={"17px"}
+                onChange={(e) => {
+                  setUsername(e.target.value);
+                }}
               />
             </InputGroup>
             <InputGroup w={"100%"} bg={"gray.50"} mt={6}>
@@ -90,6 +127,9 @@ function Signup() {
                 color={"gray.600"}
                 h={14}
                 fontSize={"17px"}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
               />
             </InputGroup>
             <InputGroup w={"100%"} bg={"gray.50"}>
@@ -102,6 +142,9 @@ function Signup() {
                 color={"gray.600"}
                 h={14}
                 fontSize={"17px"}
+                onChange={(e) => {
+                  setConfirmPassword(e.target.value);
+                }}
               />
             </InputGroup>
             <Button
@@ -109,6 +152,7 @@ function Signup() {
               colorScheme="blue"
               width={"100%"}
               mt={{ base: 10, xl: 16 }}
+              onClick={signUpPost}
             >
               Create Account
             </Button>

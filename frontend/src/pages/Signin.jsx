@@ -15,7 +15,26 @@ import {
 import { FaUser, FaLock } from "react-icons/fa";
 import eatingSushi from "../assets/eatingsushi.svg";
 
+import axios from "axios";
+import { useState } from "react";
+import { Link as ReactRouterLink, useNavigate } from "react-router-dom";
+import { useUser } from "../hooks/UseUser";
+
 function Signin() {
+
+  const navigate = useNavigate();
+  const { user, authenticated } = useUser();
+  if (user || authenticated) {
+    navigate("/home")
+  }
+
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const signInMethod = async () => {
+
+  }
 
   return (
     <>
@@ -49,8 +68,8 @@ function Signin() {
           bg={"white"}
           flexDir={"column"}
           alignItems={"center"}
-          p={{base: 4, md: 32 ,xl: 48}}
-          pt={{base: 12, xl: 24}}
+          p={{ base: 4, md: 32, xl: 48 }}
+          pt={{ base: 12, xl: 24 }}
           gap={12}
           whiteSpace={"nowrap"}
         >
@@ -93,7 +112,14 @@ function Signin() {
                 fontSize={"17px"}
               />
             </InputGroup>
-            <Button size={"lg"} colorScheme="blue" width={"100%"} mt={{base: 10, xl: 16}}>Login</Button>
+            <Button
+              size={"lg"}
+              colorScheme="blue"
+              width={"100%"}
+              mt={{ base: 10, xl: 16 }}
+            >
+              Login
+            </Button>
             <Link color={"blue.400"}>Log-in as a Guest</Link>
           </Flex>
         </Flex>

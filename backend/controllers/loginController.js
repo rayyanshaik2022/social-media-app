@@ -2,7 +2,7 @@ const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
-const Refresh = require("../model/refresh");
+const Refresh = require("../models/refresh");
 require("dotenv");
 const crypto = require("crypto");
 
@@ -34,4 +34,6 @@ exports.login_user = asyncHandler(async (req, res, next) => {
     jwtSecret,
     { expiresIn: jwtExpiresIn }
   );
+
+  res.status(200).json({ token });
 });
