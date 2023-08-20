@@ -19,6 +19,7 @@ const jwtExpiresIn = process.env.JWT_EXPIRES_IN;
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
+var postsRouter = require("./routes/posts");
 
 const signup_controller = require("./controllers/signupController");
 const login_controller = require("./controllers/loginController");
@@ -60,6 +61,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
+app.use("/posts", postsRouter);
 
 // Handle sign-up
 app.post("/sign-up", signup_controller.signup_create_post);
@@ -82,7 +84,7 @@ app.get("/auth/me", async (req, res) => {
       res.status(400).json(defaultReturnObject);
       return;
     }
-    
+
     delete nextUser.password;
     res.status(200).json({ authenticated: true, user: nextUser });
   } catch (err) {

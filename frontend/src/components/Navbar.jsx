@@ -20,7 +20,7 @@ import { useMediaQuery } from "@chakra-ui/react";
 import { SearchIcon, HamburgerIcon } from "@chakra-ui/icons";
 import { FaUser, FaBell, FaHome, FaUsers } from "react-icons/fa";
 
-function Navbar() {
+function Navbar(props) {
   const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
 
   if (isLargerThan768) {
@@ -57,7 +57,7 @@ function Navbar() {
             src="https://bit.ly/dan-abramov"
           />
           <Text fontWeight={"700"} fontSize={"17px"}>
-            Rayyan Shaik
+            {props.displayName}
           </Text>
           <Box w={"2px"} h={"40px"} bg={"gray.100"}></Box>
           <Icon as={FaBell} boxSize={6} color={"#9ac9f5"} />

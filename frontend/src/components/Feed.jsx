@@ -3,7 +3,7 @@ import { Flex } from "@chakra-ui/react";
 import NewPost from "./NewPost";
 import Post from "./Post";
 
-function Feed() {
+function Feed(props) {
   return (
     <>
       <Flex
@@ -15,7 +15,7 @@ function Feed() {
         zIndex={2}
         gap={8}
       >
-        <NewPost />
+        <NewPost displayName={props.displayName} />
         <Post />
         <Post />
         <Post />

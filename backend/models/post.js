@@ -14,4 +14,4 @@ PostSchema.virtual("url").get(function() {
     return `/posts/find/${this._id}`
 });
 
-module.exports = mogoost.model("Post", PostSchema)
+module.exports = mongoose.model("Post", PostSchema)

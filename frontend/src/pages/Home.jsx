@@ -6,11 +6,16 @@ import RightFeed from "../components/RightFeed";
 
 import { useMediaQuery } from "@chakra-ui/react";
 import { useUser } from "../hooks/UseUser";
-import { useNavigate } from 'react-router-dom';
 
 function Home() {
   const [isLargerThan1280] = useMediaQuery("(min-width: 1280px)");
   const { user, authenticated } = useUser();
+  
+  if (!authenticated) {
+    return (
+      <></>
+    )
+  }
 
   return (
     <>
@@ -27,7 +32,7 @@ function Home() {
             }}
           >
             <SideBar />
-            <Feed />
+            <Feed displayName={user.displayName} />
             {isLargerThan1280 ? <RightFeed /> : null}
           </Grid>
         </Flex>
