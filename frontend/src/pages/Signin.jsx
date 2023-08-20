@@ -9,7 +9,7 @@ import {
   InputRightElement,
   Icon,
   Button,
-  Link
+  Link,
 } from "@chakra-ui/react";
 
 import { FaUser, FaLock } from "react-icons/fa";
@@ -19,13 +19,13 @@ import axios from "axios";
 import { useState } from "react";
 import { Link as ReactRouterLink, useNavigate } from "react-router-dom";
 import { useUser } from "../hooks/UseUser";
+import { storeTokenInLocalStorage } from "../hooks/common";
 
 function Signin() {
-
   const navigate = useNavigate();
   const { user, authenticated } = useUser();
   if (user || authenticated) {
-    navigate("/home")
+    navigate("/home");
   }
 
   const [username, setUsername] = useState("");
@@ -33,8 +33,30 @@ function Signin() {
   const [isLoading, setIsLoading] = useState(false);
 
   const signInMethod = async () => {
+    try {
+      setIsLoading(true);
+      const response = await axios({
+        method: "POST",
+        url: "http://localhost:3000/log-in",
+        data: {
+          username,
+          password,
+        }
+      });
 
-  }
+      if (!response.data.token) {
+        console.log("Something went wrong during sign in: ", response);
+        return;
+      }
+
+      storeTokenInLocalStorage(response.data.token);
+      navigate("/home");
+    } catch (err) {
+      console.log("Some error occured during signing in: ", err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <>
@@ -98,6 +120,7 @@ function Signin() {
                 color={"gray.600"}
                 h={14}
                 fontSize={"17px"}
+                onChange={(e) => setUsername(e.target.value)}
               />
             </InputGroup>
             <InputGroup w={"100%"} bg={"gray.50"}>
@@ -110,6 +133,7 @@ function Signin() {
                 color={"gray.600"}
                 h={14}
                 fontSize={"17px"}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </InputGroup>
             <Button
@@ -117,10 +141,13 @@ function Signin() {
               colorScheme="blue"
               width={"100%"}
               mt={{ base: 10, xl: 16 }}
+              isLoading={isLoading}
+              onClick={signInMethod}
             >
               Login
             </Button>
             <Link color={"blue.400"}>Log-in as a Guest</Link>
+            <Link color={"blue.400"} href={"/sign-up/"}>Create new account</Link>
           </Flex>
         </Flex>
       </Grid>

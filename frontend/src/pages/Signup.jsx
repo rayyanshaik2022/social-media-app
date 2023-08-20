@@ -153,10 +153,12 @@ function Signup() {
               width={"100%"}
               mt={{ base: 10, xl: 16 }}
               onClick={signUpPost}
+              isLoading={isLoading}
             >
               Create Account
             </Button>
             <Link color={"blue.400"}>Log-in as a Guest</Link>
+            <Link color={"blue.400"} href={"/sign-in/"}>Log in to existing account</Link>
           </Flex>
         </Flex>
       </Grid>

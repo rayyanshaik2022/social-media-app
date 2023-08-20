@@ -10,11 +10,11 @@ const jwtSecret = process.env.JWT_SECRET;
 const jwtExpiresIn = process.env.JWT_EXPIRES_IN;
 
 exports.login_user = asyncHandler(async (req, res, next) => {
-  const { username, password } = req.body;
-  const user = await User.findOne({ username });
-
+  const {username, password} = req.body;
+  const user = await User.findOne({username: username  }).exec();
+  
   if (!user) {
-    return res.status(400).json({ error: "No user with such email" });
+    return res.status(400).json({ error: "No user with such username" });
   }
 
   //Compare passwords with bcrypt.compare method
