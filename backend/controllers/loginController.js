@@ -2,7 +2,6 @@ const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
-const Refresh = require("../models/refresh");
 require("dotenv");
 const crypto = require("crypto");
 
