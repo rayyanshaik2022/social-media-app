@@ -10,13 +10,15 @@ import {
   Icon,
   Button,
   Link,
+  FormControl,
+  FormErrorMessage,
 } from "@chakra-ui/react";
 
 import { FaUser, FaLock } from "react-icons/fa";
 import eatingBreakfast from "../assets/eatingbreakfast.svg";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import axios from 'axios';
+import axios from "axios";
 
 function Signup() {
   const navigate = useNavigate();
@@ -25,6 +27,10 @@ function Signup() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  const [usernameError, setUsernameError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
 
   const signUpPost = async () => {
     try {
@@ -35,11 +41,25 @@ function Signup() {
         data: {
           username,
           password,
+          confirmPassword
         },
       });
 
-      if (!response.data.token) {
-        console.log("Something went wrong during sign up: ", response);
+      if (!response.data.fulfilled) {
+
+        setUsernameError("");
+        setPasswordError("");
+        setConfirmPasswordError("");
+
+        if (response.data.field == "username") {
+          setUsernameError(response.data.message);
+        }
+        else if (response.data.field == "password") {
+          setPasswordError(response.data.message);
+        }
+        else if (response.data.field == "confirm-password") {
+          setConfirmPasswordError(response.data.message);
+        }
         return;
       }
       navigate("/sign-in/");
@@ -106,47 +126,66 @@ function Signup() {
               <InputRightElement pointerEvents="none" mt={2} mr={2}>
                 <Icon as={FaUser} color="gray.300" boxSize={6} />
               </InputRightElement>
-              <Input
-                type="text"
-                placeholder="Username"
-                color={"gray.600"}
-                h={14}
-                fontSize={"17px"}
-                onChange={(e) => {
-                  setUsername(e.target.value);
-                }}
-              />
+              <FormControl isInvalid={usernameError != ""} bg={"white"}>
+                <Input
+                  type="text"
+                  placeholder="Username"
+                  color={"gray.600"}
+                  h={14}
+                  fontSize={"17px"}
+                  bg={"gray.50"}
+                  onChange={(e) => {
+                    setUsername(e.target.value);
+                  }}
+                />
+                <FormErrorMessage pl={1} mb={-4}>
+                  {usernameError}
+                </FormErrorMessage>
+              </FormControl>
             </InputGroup>
+
             <InputGroup w={"100%"} bg={"gray.50"} mt={6}>
               <InputRightElement pointerEvents="none" mt={2} mr={2}>
                 <Icon as={FaLock} color="gray.300" boxSize={6} />
               </InputRightElement>
-              <Input
-                type="password"
-                placeholder="Password"
-                color={"gray.600"}
-                h={14}
-                fontSize={"17px"}
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                }}
-              />
+              <FormControl isInvalid={passwordError != ""} bg={"white"}>
+                <Input
+                  type="password"
+                  placeholder="Password"
+                  color={"gray.600"}
+                  h={14}
+                  fontSize={"17px"}
+                  bg={"gray.50"}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
+                />
+                <FormErrorMessage pl={1}>
+                  {passwordError}
+                </FormErrorMessage>
+              </FormControl>
             </InputGroup>
+
             <InputGroup w={"100%"} bg={"gray.50"}>
               <InputRightElement pointerEvents="none" mt={2} mr={2}>
                 <Icon as={FaLock} color="gray.300" boxSize={6} />
               </InputRightElement>
-              <Input
-                type="password"
-                placeholder="Confirm Password"
-                color={"gray.600"}
-                h={14}
-                fontSize={"17px"}
-                onChange={(e) => {
-                  setConfirmPassword(e.target.value);
-                }}
-              />
+              <FormControl isInvalid={confirmPasswordError != ""} bg={"white"}>
+                <Input
+                  type="password"
+                  placeholder="Confirm Password"
+                  color={"gray.600"}
+                  h={14}
+                  fontSize={"17px"}
+                  bg={"gray.50"}
+                  onChange={(e) => {
+                    setConfirmPassword(e.target.value);
+                  }}
+                />
+                <FormErrorMessage pl={1}>{confirmPasswordError}</FormErrorMessage>
+              </FormControl>
             </InputGroup>
+
             <Button
               size={"lg"}
               colorScheme="blue"
@@ -158,7 +197,9 @@ function Signup() {
               Create Account
             </Button>
             <Link color={"blue.400"}>Log-in as a Guest</Link>
-            <Link color={"blue.400"} href={"/sign-in/"}>Log in to existing account</Link>
+            <Link color={"blue.400"} href={"/sign-in/"}>
+              Log in to existing account
+            </Link>
           </Flex>
         </Flex>
       </Grid>
