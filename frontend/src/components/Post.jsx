@@ -15,11 +15,16 @@ import {
   IconButton,
 } from "@chakra-ui/react";
 
-import { useToast } from '@chakra-ui/react'
+import { useToast } from "@chakra-ui/react";
+import { useUserAnonymous } from "../hooks/UseUserAnonymous";
 
 import { FiMoreHorizontal } from "react-icons/fi";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { LinkIcon } from "@chakra-ui/icons";
+
+import axios from "axios";
+import { getTokenFromLocalStorage } from "../hooks/common";
+import { useState } from "react";
 
 function timeSince(date) {
   var seconds = Math.floor((new Date() - date) / 1000);
@@ -49,50 +54,69 @@ function timeSince(date) {
 }
 
 function Post(props) {
+  const [isDeleted, setIsDeleted] = useState(false);
 
   const handleClickCopyLink = () => {
     navigator.clipboard.writeText(
       `http://localhost:5173/post-view/${props._id}`
-    )
-    copyLinkToast()
-  }
-
+    );
+    copyLinkToast();
+  };
   const handleClickViewPost = () => {
-    window.open(
-      `http://localhost:5173/post-view/${props._id}`
-    )
-  }
+    window.open(`http://localhost:5173/post-view/${props._id}`);
+  };
+  const handleDeletePost = async () => {
+    const token = getTokenFromLocalStorage();
 
-  const toast = useToast()
+    const response = await axios({
+      method: "DELETE",
+      url: `http://localhost:3000/posts/delete/${props._id}`,
+      data: {},
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
+    console.log(response.data);
+    if (response.data.fulfilled) {
+      setIsDeleted(true);
+      deleteToast();
+    }
+  };
+
+  const toast = useToast();
   const copyLinkToast = () => {
     toast({
-      title: 'Link copied!',
+      title: "Link copied!",
       description: "Post link copied to clipboard",
-      status: 'success',
+      status: "success",
       duration: 3000,
       isClosable: true,
-    })
-  }
-
+    });
+  };
   const reportToast = () => {
     toast({
-      title: 'Post reported',
+      title: "Post reported",
       description: "This post will be reviewed",
-      status: 'warning',
+      status: "warning",
       duration: 3000,
       isClosable: true,
-    })
-  }
-
+    });
+  };
   const deleteToast = () => {
     toast({
-      title: 'Post deleted',
+      title: "Post deleted",
       description: "Your post has been deleted",
-      status: 'success',
+      status: "success",
       duration: 3000,
       isClosable: true,
-    })
+    });
+  };
+
+  const { user, authenticated } = useUserAnonymous();
+
+  if (isDeleted) {
+    return null;
   }
 
   return (
@@ -104,8 +128,6 @@ function Post(props) {
         }
         p={3}
       >
-       
-
         <Menu>
           <MenuButton
             as={IconButton}
@@ -127,7 +149,9 @@ function Post(props) {
           <MenuList>
             <MenuItem onClick={handleClickViewPost}>View Post</MenuItem>
             <MenuItem onClick={reportToast}>Report Post</MenuItem>
-            <MenuItem onClick={deleteToast}>Delete Post</MenuItem>
+            {authenticated && user.username == props.author ? (
+              <MenuItem onClick={handleDeletePost}>Delete Post</MenuItem>
+            ) : null}
           </MenuList>
         </Menu>
 

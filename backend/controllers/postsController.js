@@ -2,6 +2,7 @@ const asyncHandler = require("express-async-handler");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 const Post = require("../models/post");
+const post = require("../models/post");
 
 require("dotenv");
 const jwtSecret = process.env.JWT_SECRET;
@@ -50,5 +51,19 @@ exports.get_single_post = asyncHandler(async (req, res, next) => {
     res.json({ post: post, fulfilled: true });
   } catch (err) {
     res.json({ message: "Failed to get message", fulfilled: false });
+  }
+});
+
+exports.delete_single_post = asyncHandler(async (req, res, next) => {
+  const defaultReturnObject = { authenticated: false, user: null };
+  try {
+    const token = String(req.headers.authorization.replace("Bearer ", ""));
+
+    const decoded = jwt.verify(token, jwtSecret);
+
+    await Post.deleteOne({ author: decoded.username, _id: req.params.id });
+    res.status(200).json({ fulfilled: true, remove: post });
+  } catch (err) {
+    res.status(400).json({ ...defaultReturnObject, fulfilled: false });
   }
 });

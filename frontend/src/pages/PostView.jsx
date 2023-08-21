@@ -21,10 +21,9 @@ function PostView() {
       const response = await axios({
         method: "GET",
         url: `http://localhost:3000/posts/single/${id}`,
-        data: {},
+        data: {
+        },
       });
-
-      console.log(response.data.post);
       setCurrentPost(response.data.post);
     }
 

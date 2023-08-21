@@ -10,4 +10,6 @@ router.post("/new", posts_controller.create_post);
 
 router.get("/single/:id", posts_controller.get_single_post);
 
+router.delete("/delete/:id", posts_controller.delete_single_post);
+
 module.exports = router;
