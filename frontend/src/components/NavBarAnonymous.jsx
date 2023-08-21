@@ -4,14 +4,22 @@ import {
     InputGroup,
     InputRightElement,
     Input,
+    Button,
+    Spacer
   } from "@chakra-ui/react";
   
   import { useMediaQuery } from "@chakra-ui/react";
+  import { useNavigate } from 'react-router-dom';
   
   import { SearchIcon } from "@chakra-ui/icons";
   
   function NavbarAnonymous() {
     const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
+    const navigate = useNavigate();
+
+    const handleClickLogIn = () => {
+      navigate("/sign-in/")
+    }
   
     if (isLargerThan768) {
       return (
@@ -37,6 +45,8 @@ import {
               fontSize={"17px"}
             />
           </InputGroup>
+          <Spacer />
+          <Button colorScheme="blue" mr={14} size={"lg"} onClick={handleClickLogIn}>Log in</Button>
         </Flex>
       );
     } else {
@@ -49,7 +59,7 @@ import {
           position={"sticky"}
           zIndex={3}
           top={0}
-          justifyContent={"center"}
+          justifyContent={"space-between"}
         >
           <Box
             as="div"
@@ -60,6 +70,7 @@ import {
             m={14}
             borderRadius={8}
           ></Box>
+          <Button colorScheme="blue" mr={10} size={"md"} onClick={handleClickLogIn}>Log in</Button>
         </Flex>
       );
     }
