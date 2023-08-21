@@ -9,7 +9,14 @@ import {
   CardHeader,
   CardBody,
   Circle,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  IconButton,
 } from "@chakra-ui/react";
+
+import { useToast } from '@chakra-ui/react'
 
 import { FiMoreHorizontal } from "react-icons/fi";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
@@ -43,6 +50,29 @@ function timeSince(date) {
 }
 
 function Post(props) {
+
+  const toast = useToast()
+
+  const reportToast = () => {
+    toast({
+      title: 'Post reported',
+      description: "This post will be reviewed",
+      status: 'warning',
+      duration: 3000,
+      isClosable: true,
+    })
+  }
+
+  const deleteToast = () => {
+    toast({
+      title: 'Post deleted',
+      description: "Your post has been deleted",
+      status: 'success',
+      duration: 3000,
+      isClosable: true,
+    })
+  }
+
   return (
     <>
       <Card
@@ -52,19 +82,32 @@ function Post(props) {
         }
         p={3}
       >
-        <Circle
-          pos={"absolute"}
-          right={4}
-          size="36px"
-          bg="white"
-          color="white"
-          _hover={{
-            bg: "gray.200",
-            cursor: "pointer",
-          }}
-        >
-          <Icon as={FiMoreHorizontal} boxSize={8} color={"gray.400"} />
-        </Circle>
+       
+
+        <Menu>
+          <MenuButton
+            as={IconButton}
+            aria-label="Options"
+            icon={<Icon as={FiMoreHorizontal} boxSize={8} color={"gray.400"} />}
+            variant="outline"
+            pos={"absolute"}
+            right={4}
+            size="36px"
+            bg="white"
+            color="white"
+            _hover={{
+              bg: "gray.200",
+              cursor: "pointer",
+            }}
+            borderRadius={"50%"}
+            p={1}
+          />
+          <MenuList>
+            <MenuItem>View Post</MenuItem>
+            <MenuItem onClick={reportToast}>Report Post</MenuItem>
+            <MenuItem onClick={deleteToast}>Delete Post</MenuItem>
+          </MenuList>
+        </Menu>
 
         <CardHeader display={"flex"}>
           <Avatar
@@ -83,7 +126,9 @@ function Post(props) {
             <Heading fontSize={"lg"} color={"blue.700"}>
               {props.author}
             </Heading>
-            <Text color={"gray.400"}>{timeSince(new Date(props.datePosted))}</Text>
+            <Text color={"gray.400"}>
+              {timeSince(new Date(props.datePosted))}
+            </Text>
           </Flex>
         </CardHeader>
 

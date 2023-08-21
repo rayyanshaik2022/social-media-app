@@ -9,6 +9,7 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { useState } from "react";
+import { useToast } from "@chakra-ui/react";
 import { useUser } from "../hooks/UseUser";
 import { AiFillPicture } from "react-icons/ai";
 import axios from "axios";
@@ -18,6 +19,7 @@ function NewPost(props) {
   const [textContent, setTextContent] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useUser();
+  const toast = useToast();
 
   const createPost = async () => {
     const newPost = {
@@ -29,7 +31,7 @@ function NewPost(props) {
       setIsLoading(true);
 
       const token = getTokenFromLocalStorage();
-      
+
       const response = await axios({
         method: "POST",
         url: "http://localhost:3000/posts/new",
@@ -43,7 +45,15 @@ function NewPost(props) {
         console.log("Something went wrong when creating a post!", response);
         return;
       }
-      props.setCurrentPosts(response.data.posts)
+
+      props.setCurrentPosts(response.data.posts);
+      toast({
+        title: "New Post",
+        description: "Your post has been added to the feed",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
 
     } catch (err) {
       console.log("Some error occured during post creation ", err);
