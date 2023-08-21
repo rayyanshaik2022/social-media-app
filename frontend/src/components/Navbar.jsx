@@ -51,10 +51,9 @@ function Navbar(props) {
         <Spacer />
         <Flex alignItems={"center"} gap={"16px"} mr={14}>
           <Avatar
-            name="Dan Abrahmov"
+            name={props.displayName}
             width={"56px"}
             h={"56px"}
-            src="https://bit.ly/dan-abramov"
           />
           <Text fontWeight={"700"} fontSize={"17px"}>
             {props.displayName}

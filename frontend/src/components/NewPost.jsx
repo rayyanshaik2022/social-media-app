@@ -78,7 +78,6 @@ function NewPost(props) {
               name={props.displayName}
               width={12}
               h={12}
-              src="https://bit.ly/dan-abramov"
               mr={2}
             />
             {/* <Textarea

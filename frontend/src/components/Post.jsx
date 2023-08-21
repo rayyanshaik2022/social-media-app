@@ -160,7 +160,6 @@ function Post(props) {
             name={props.author}
             w={16}
             h={16}
-            src="https://bit.ly/dan-abramov"
             mr={4}
           />
           <Flex
