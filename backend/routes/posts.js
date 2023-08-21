@@ -12,4 +12,9 @@ router.get("/single/:id", posts_controller.get_single_post);
 
 router.delete("/delete/:id", posts_controller.delete_single_post);
 
+router.post("/like/:id", posts_controller.like_single_post);
+
+router.get("/liked/:id", posts_controller.get_single_post_liked);
+
+
 module.exports = router;

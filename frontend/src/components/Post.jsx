@@ -13,7 +13,7 @@ import {
   MenuList,
   MenuItem,
   IconButton,
-  keyframes
+  keyframes,
 } from "@chakra-ui/react";
 
 import { useToast } from "@chakra-ui/react";
@@ -64,7 +64,7 @@ const likeAnimation = keyframes`
   100% {
     transform: scale(1)
   }
-`
+`;
 
 function Post(props) {
   const [isDeleted, setIsDeleted] = useState(false);
@@ -98,11 +98,23 @@ function Post(props) {
       deleteToast();
     }
   };
-  const handleClickLikePost = () => {
+  const handleClickLikePost = async () => {
     setIsLiked(!isLiked);
 
     isLiked ? setLikes(likes - 1) : setLikes(likes + 1);
-  }
+
+    const token = getTokenFromLocalStorage();
+    const response = await axios({
+      method: "POST",
+      url: `http://localhost:3000/posts/like/${props._id}`,
+      data: {},
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log(response.data)
+
+  };
 
   const toast = useToast();
   const copyLinkToast = () => {
@@ -137,9 +149,28 @@ function Post(props) {
 
   // Is post liked?
   useEffect(() => {
-    if (props.user === null) { return; }
-  }, [])
-  
+    if (props.user === null) {
+      return;
+    }
+
+    async function getLikedFunc() {
+
+      const token = getTokenFromLocalStorage();
+
+      const response = await axios({
+        method: "GET",
+        url: `http://localhost:3000/posts/liked/${props._id}`,
+        data: {},
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      
+      console.log("liked", response.data.liked)
+      setIsLiked(response.data.liked);
+    }
+    getLikedFunc()
+  }, []);
 
   if (isDeleted) {
     return null;
@@ -182,12 +213,7 @@ function Post(props) {
         </Menu>
 
         <CardHeader display={"flex"}>
-          <Avatar
-            name={props.author}
-            w={16}
-            h={16}
-            mr={4}
-          />
+          <Avatar name={props.author} w={16} h={16} mr={4} />
           <Flex
             flexDir={"column"}
             alignItems={"left"}
@@ -218,13 +244,16 @@ function Post(props) {
                 _hover={{ cursor: "pointer" }}
                 onClick={handleClickLikePost}
               >
-                {
-                  isLiked ? (
-                    <Icon as={AiFillHeart} boxSize={8} color={"red.400"} animation={`${likeAnimation} 0.4s ease-in-out`}/>
-                  ) : (
-                    <Icon as={AiOutlineHeart} boxSize={8} color={"red.400"} />
-                  )
-                }
+                {isLiked ? (
+                  <Icon
+                    as={AiFillHeart}
+                    boxSize={8}
+                    color={"red.400"}
+                    animation={`${likeAnimation} 0.4s ease-in-out`}
+                  />
+                ) : (
+                  <Icon as={AiOutlineHeart} boxSize={8} color={"red.400"} />
+                )}
                 <Text fontWeight={"600"} color={"gray.600"} userSelect={"none"}>
                   {likes} likes
                 </Text>

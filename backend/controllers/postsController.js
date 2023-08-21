@@ -67,3 +67,51 @@ exports.delete_single_post = asyncHandler(async (req, res, next) => {
     res.status(400).json({ ...defaultReturnObject, fulfilled: false });
   }
 });
+
+exports.like_single_post = asyncHandler(async (req, res, next) => {
+  const defaultReturnObject = { authenticated: false, user: null };
+  try {
+    const token = String(req.headers.authorization.replace("Bearer ", ""));
+    const decoded = jwt.verify(token, jwtSecret);
+    const postId = req.params.id;
+
+    const user = await User.findOne({ username: decoded.username }).exec();
+
+    if (user.liked.includes(postId)) {
+      await User.updateOne(
+        { username: decoded.username },
+        { $pull: { liked: postId } }
+      );
+      await Post.updateOne({ _id: postId }, { $inc: { likes: -1 } }).exec();
+    } else {
+      await User.updateOne(
+        { username: decoded.username },
+        { $push: { liked: postId } }
+      );
+      await Post.updateOne({ _id: postId }, { $inc: { likes: 1 } }).exec();
+    }
+
+    // Success
+    res.status(200).json({ fulfilled: true });
+  } catch (err) {
+    res.status(400).json({ ...defaultReturnObject, fulfilled: false });
+  }
+});
+
+exports.get_single_post_liked = asyncHandler(async (req, res, next) => {
+  const defaultReturnObject = { authenticated: false, user: null };
+  try {
+    const token = String(req.headers.authorization.replace("Bearer ", ""));
+    const decoded = jwt.verify(token, jwtSecret);
+    const postId = req.params.id;
+
+    const user = await User.findOne({ username: decoded.username }).exec();
+    if (user.liked.includes(postId)) {
+      res.status(200).json({ liked: true, fulfilled: true });
+    } else {
+      res.status(200).json({ liked: false, fulfilled: true });
+    }
+  } catch (err) {
+    res.status(400).json({ ...defaultReturnObject, fulfilled: false });
+  }
+});
