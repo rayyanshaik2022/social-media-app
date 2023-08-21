@@ -43,3 +43,12 @@ exports.get_posts = asyncHandler(async (req, res, next) => {
   const postList = await Post.find({}).sort({ datePosted: -1 }).limit(20);
   res.json({ posts: postList, fulfilled: true });
 });
+
+exports.get_single_post = asyncHandler(async (req, res, next) => {
+  try {
+    const post = await Post.findOne({ _id: req.params.id });
+    res.json({ post: post, fulfilled: true });
+  } catch (err) {
+    res.json({ message: "Failed to get message", fulfilled: false });
+  }
+});

@@ -33,6 +33,10 @@ const router = createBrowserRouter([
     element: <App page={"sign-up"} />,
   }, 
   {
+    path: "/post-view/:id",
+    element: <App page={"post-view"} />
+  },
+  {
     path: "*",
     element: <App page={"sign-in"} />
   }
