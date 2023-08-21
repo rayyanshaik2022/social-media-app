@@ -13,6 +13,7 @@ import {
   MenuList,
   MenuItem,
   IconButton,
+  keyframes
 } from "@chakra-ui/react";
 
 import { useToast } from "@chakra-ui/react";
@@ -24,7 +25,7 @@ import { LinkIcon } from "@chakra-ui/icons";
 
 import axios from "axios";
 import { getTokenFromLocalStorage } from "../hooks/common";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function timeSince(date) {
   var seconds = Math.floor((new Date() - date) / 1000);
@@ -53,8 +54,22 @@ function timeSince(date) {
   return Math.floor(seconds) + " seconds";
 }
 
+const likeAnimation = keyframes`
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.3)
+  }
+  100% {
+    transform: scale(1)
+  }
+`
+
 function Post(props) {
   const [isDeleted, setIsDeleted] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
+  const [likes, setLikes] = useState(props.likes);
 
   const handleClickCopyLink = () => {
     navigator.clipboard.writeText(
@@ -83,6 +98,11 @@ function Post(props) {
       deleteToast();
     }
   };
+  const handleClickLikePost = () => {
+    setIsLiked(!isLiked);
+
+    isLiked ? setLikes(likes - 1) : setLikes(likes + 1);
+  }
 
   const toast = useToast();
   const copyLinkToast = () => {
@@ -114,6 +134,12 @@ function Post(props) {
   };
 
   const { user, authenticated } = useUserAnonymous();
+
+  // Is post liked?
+  useEffect(() => {
+    if (props.user === null) { return; }
+  }, [])
+  
 
   if (isDeleted) {
     return null;
@@ -190,10 +216,17 @@ function Post(props) {
                 gap={2}
                 mt={2}
                 _hover={{ cursor: "pointer" }}
+                onClick={handleClickLikePost}
               >
-                <Icon as={AiOutlineHeart} boxSize={8} color={"red.400"} />
-                <Text fontWeight={"600"} color={"gray.600"}>
-                  {props.likes} likes
+                {
+                  isLiked ? (
+                    <Icon as={AiFillHeart} boxSize={8} color={"red.400"} animation={`${likeAnimation} 0.4s ease-in-out`}/>
+                  ) : (
+                    <Icon as={AiOutlineHeart} boxSize={8} color={"red.400"} />
+                  )
+                }
+                <Text fontWeight={"600"} color={"gray.600"} userSelect={"none"}>
+                  {likes} likes
                 </Text>
               </Flex>
               <Flex
@@ -204,7 +237,7 @@ function Post(props) {
                 onClick={handleClickCopyLink}
               >
                 <Icon as={LinkIcon} boxSize={6} color={"green.400"} />
-                <Text fontWeight={"600"} color={"gray.600"}>
+                <Text fontWeight={"600"} color={"gray.600"} userSelect={"none"}>
                   Link
                 </Text>
               </Flex>

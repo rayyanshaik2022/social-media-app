@@ -69,6 +69,40 @@ function Signin() {
     }
   };
 
+  const signInAsGuest = async () => {
+    try {
+      setIsLoading(true);
+      const response = await axios({
+        method: "POST",
+        url: "http://localhost:3000/log-in",
+        data: {
+          username: "Guest",
+          password: "password",
+        },
+      });
+
+      if (!response.data.fulfilled) {
+        setCredentialsError("");
+
+        if (response.data.field == "username-password") {
+          setCredentialsError(response.data.message);
+        }
+      }
+
+      if (!response.data.token) {
+        console.log("Something went wrong during sign in: ", response);
+        return;
+      }
+
+      storeTokenInLocalStorage(response.data.token);
+      navigate("/home");
+    } catch (err) {
+      console.log("Some error occured during signing in: ", err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <>
       <Grid templateColumns={{ base: "1fr", lg: "1fr 50vw" }}>
@@ -142,7 +176,7 @@ function Signin() {
                   <Icon as={FaLock} color="gray.300" boxSize={6} />
                 </InputRightElement>
                 <Input
-                  type="password" 
+                  type="password"
                   placeholder="Password"
                   color={"gray.600"}
                   h={14}
@@ -151,8 +185,8 @@ function Signin() {
                 />
               </InputGroup>
               <FormErrorMessage pl={1} mb={-4}>
-                  {credentialsError}
-                </FormErrorMessage>
+                {credentialsError}
+              </FormErrorMessage>
             </FormControl>
 
             <Button
@@ -165,7 +199,7 @@ function Signin() {
             >
               Login
             </Button>
-            <Link color={"blue.400"}>Log-in as a Guest</Link>
+            <Link color={"blue.400"} onClick={signInAsGuest}>Log-in as a Guest</Link>
             <Link color={"blue.400"} href={"/sign-up/"}>
               Create new account
             </Link>

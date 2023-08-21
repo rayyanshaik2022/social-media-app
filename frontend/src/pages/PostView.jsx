@@ -56,7 +56,7 @@ function PostView() {
         <Flex flexDir={"column"} alignItems={"center"}>
           <Navbar displayName={user.displayName} auth={true} />
           <Box w={"100%"} h={"100%"} p={"4%"} pt={"6%"} maxW={"1000px"}>
-            {!loading ? <Post key={currentPost._id} {...currentPost} /> : null}
+            {!loading ? <Post key={currentPost._id} {...currentPost} user={user} /> : null}
           </Box>
         </Flex>
       </Box>

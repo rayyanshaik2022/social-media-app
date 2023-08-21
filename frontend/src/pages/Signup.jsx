@@ -14,6 +14,7 @@ import {
   FormErrorMessage,
 } from "@chakra-ui/react";
 
+import { storeTokenInLocalStorage } from "../hooks/common";
 import { FaUser, FaLock } from "react-icons/fa";
 import eatingBreakfast from "../assets/eatingbreakfast.svg";
 import { useNavigate } from "react-router-dom";
@@ -65,6 +66,27 @@ function Signup() {
       navigate("/sign-in/");
     } catch (err) {
       console.log("Some error occured during sign up: ", err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const signInAsGuest = async () => {
+    try {
+      setIsLoading(true);
+      const response = await axios({
+        method: "POST",
+        url: "http://localhost:3000/log-in",
+        data: {
+          username: "Guest",
+          password: "password",
+        },
+      });
+
+      storeTokenInLocalStorage(response.data.token);
+      navigate("/home");
+    } catch (err) {
+      console.log("Some error occured during signing in: ", err);
     } finally {
       setIsLoading(false);
     }
@@ -196,7 +218,7 @@ function Signup() {
             >
               Create Account
             </Button>
-            <Link color={"blue.400"}>Log-in as a Guest</Link>
+            <Link color={"blue.400"} onClick={signInAsGuest}>Log-in as a Guest</Link>
             <Link color={"blue.400"} href={"/sign-in/"}>
               Log in to existing account
             </Link>
