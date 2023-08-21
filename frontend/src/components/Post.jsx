@@ -50,7 +50,30 @@ function timeSince(date) {
 
 function Post(props) {
 
+  const handleClickCopyLink = () => {
+    navigator.clipboard.writeText(
+      `http://localhost:5173/post-view/${props._id}`
+    )
+    copyLinkToast()
+  }
+
+  const handleClickViewPost = () => {
+    window.open(
+      `http://localhost:5173/post-view/${props._id}`
+    )
+  }
+
   const toast = useToast()
+
+  const copyLinkToast = () => {
+    toast({
+      title: 'Link copied!',
+      description: "Post link copied to clipboard",
+      status: 'success',
+      duration: 3000,
+      isClosable: true,
+    })
+  }
 
   const reportToast = () => {
     toast({
@@ -102,7 +125,7 @@ function Post(props) {
             p={1}
           />
           <MenuList>
-            <MenuItem>View Post</MenuItem>
+            <MenuItem onClick={handleClickViewPost}>View Post</MenuItem>
             <MenuItem onClick={reportToast}>Report Post</MenuItem>
             <MenuItem onClick={deleteToast}>Delete Post</MenuItem>
           </MenuList>
@@ -155,6 +178,7 @@ function Post(props) {
                 gap={2}
                 mt={2}
                 _hover={{ cursor: "pointer" }}
+                onClick={handleClickCopyLink}
               >
                 <Icon as={LinkIcon} boxSize={6} color={"green.400"} />
                 <Text fontWeight={"600"} color={"gray.600"}>

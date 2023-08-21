@@ -1,13 +1,9 @@
-import { Box, Flex, Grid } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 
-import Feed from "../components/Feed";
-import RightFeed from "../components/RightFeed";
 import Navbar from "../components/Navbar";
 import NavbarAnonymous from "../components/NavBarAnonymous";
 import Post from "../components/Post";
 
-import { useMediaQuery } from "@chakra-ui/react";
-import { getAuthenticatedUser } from "../hooks/common";
 import { useUserAnonymous } from "../hooks/UseUserAnonymous";
 import { useEffect, useState } from "react";
 
@@ -15,7 +11,6 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 
 function PostView() {
-  const [isLargerThan1280] = useMediaQuery("(min-width: 1280px)");
   const { user, authenticated } = useUserAnonymous();
   const [currentPost, setCurrentPost] = useState({});
   const [loading, setLoading] = useState(false);
