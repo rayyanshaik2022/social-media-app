@@ -6,7 +6,6 @@ import RightFeed from "../components/RightFeed";
 
 import { useMediaQuery } from "@chakra-ui/react";
 import { useUser } from "../hooks/UseUser";
-import { useRef } from "react";
 
 function Home() {
   const [isLargerThan1280] = useMediaQuery("(min-width: 1280px)");

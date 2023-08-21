@@ -3,6 +3,10 @@ export function storeTokenInLocalStorage(token) {
   localStorage.setItem('token', token);
 }
 
+export function selfExpireTokenInLocalStorage() {
+  localStorage.setItem('token', "1");
+}
+
 export function getTokenFromLocalStorage() {
   return localStorage.getItem('token');
 }

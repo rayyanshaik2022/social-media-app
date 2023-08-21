@@ -16,12 +16,22 @@ import {
 } from "@chakra-ui/react";
 
 import { useMediaQuery } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
 import { SearchIcon, HamburgerIcon } from "@chakra-ui/icons";
 import { FaUser, FaBell, FaHome, FaUsers } from "react-icons/fa";
 
+import { selfExpireTokenInLocalStorage } from "../hooks/common";
+
+
 function Navbar(props) {
   const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
+  const navigate = useNavigate();
+
+  const handleClickSignOut = () => {
+    navigate("/sign-in");
+    selfExpireTokenInLocalStorage()
+  }
 
   if (isLargerThan768) {
     return (
@@ -50,17 +60,27 @@ function Navbar(props) {
 
         <Spacer />
         <Flex alignItems={"center"} gap={"16px"} mr={14}>
-          <Avatar
-            name={props.displayName}
-            width={"56px"}
-            h={"56px"}
-          />
+          <Avatar name={props.displayName} width={"56px"} h={"56px"} />
           <Text fontWeight={"700"} fontSize={"17px"}>
             {props.displayName}
           </Text>
           <Box w={"2px"} h={"40px"} bg={"gray.100"}></Box>
           <Icon as={FaBell} boxSize={6} color={"#9ac9f5"} />
-          <Icon as={FaUser} boxSize={6} color={"#9ac9f5"} />
+          <Menu>
+            <MenuButton
+              as={IconButton}
+              aria-label="Options"
+              icon={
+                <Icon as={FaUser} boxSize={6} color={"#9ac9f5"} />
+              }
+              variant="outline"
+              border={"0px"}
+            />
+            <MenuList zIndex={2}>
+              <MenuItem>Profile</MenuItem>
+              <MenuItem onClick={handleClickSignOut}>Sign Out</MenuItem>
+            </MenuList>
+          </Menu>
         </Flex>
       </Flex>
     );
@@ -80,7 +100,7 @@ function Navbar(props) {
           <MenuButton
             as={IconButton}
             aria-label="Options"
-            icon={<HamburgerIcon boxSize={6} color={"gray.600"}/>}
+            icon={<HamburgerIcon boxSize={6} color={"gray.600"} />}
             variant="outline"
             ml={4}
             mr={8}
@@ -104,7 +124,21 @@ function Navbar(props) {
 
         <Flex alignItems={"center"} gap={"16px"} mr={4}>
           <Icon as={FaBell} boxSize={6} color={"#9ac9f5"} />
-          <Icon as={FaUser} boxSize={6} color={"#9ac9f5"} />
+          <Menu>
+            <MenuButton
+              as={IconButton}
+              aria-label="Options"
+              icon={
+                <Icon as={FaUser} boxSize={6} color={"#9ac9f5"} />
+              }
+              variant="outline"
+              border={"0px"}
+            />
+            <MenuList zIndex={2}>
+              <MenuItem>Profile</MenuItem>
+              <MenuItem onClick={handleClickSignOut}>Sign Out</MenuItem>
+            </MenuList>
+          </Menu>
         </Flex>
       </Flex>
     );
