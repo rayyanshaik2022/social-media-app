@@ -19,7 +19,7 @@ function Home() {
 
   return (
     <>
-      <Box w={"100vw"} h={"100vh"}>
+      <Box w={"100vw"} h={"100vh"} overflowX={"hidden"}>
         <Flex flexDir={"column"}>
           <Navbar displayName={user.displayName} />
           <Grid

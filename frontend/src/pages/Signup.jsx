@@ -87,7 +87,7 @@ function Signup() {
               src={eatingBreakfast}
               draggable={"false"}
               userSelect={"none"}
-              boxSize={"630px"}
+              boxSize={"480px"}
               bg={"#5880ca"}
               borderRadius={"5%"}
             />
@@ -103,7 +103,7 @@ function Signup() {
           flexDir={"column"}
           alignItems={"center"}
           p={{ base: 4, md: 32, xl: 48 }}
-          pt={{ base: 12, xl: 24 }}
+          pt={{ base: 12, xl: "4vh" }}
           gap={12}
           whiteSpace={"nowrap"}
         >

@@ -43,6 +43,8 @@ function NewPost(props) {
         console.log("Something went wrong when creating a post!", response);
         return;
       }
+      props.setCurrentPosts(response.data.posts)
+
     } catch (err) {
       console.log("Some error occured during post creation ", err);
     } finally {

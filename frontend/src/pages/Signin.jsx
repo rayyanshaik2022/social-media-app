@@ -10,6 +10,8 @@ import {
   Icon,
   Button,
   Link,
+  FormControl,
+  FormErrorMessage,
 } from "@chakra-ui/react";
 
 import { FaUser, FaLock } from "react-icons/fa";
@@ -17,7 +19,7 @@ import eatingSushi from "../assets/eatingsushi.svg";
 
 import axios from "axios";
 import { useState } from "react";
-import { Link as ReactRouterLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useUser } from "../hooks/UseUser";
 import { storeTokenInLocalStorage } from "../hooks/common";
 
@@ -31,6 +33,7 @@ function Signin() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [credentialsError, setCredentialsError] = useState("");
 
   const signInMethod = async () => {
     try {
@@ -41,8 +44,16 @@ function Signin() {
         data: {
           username,
           password,
-        }
+        },
       });
+
+      if (!response.data.fulfilled) {
+        setCredentialsError("");
+
+        if (response.data.field == "username-password") {
+          setCredentialsError(response.data.message);
+        }
+      }
 
       if (!response.data.token) {
         console.log("Something went wrong during sign in: ", response);
@@ -75,7 +86,7 @@ function Signin() {
               src={eatingSushi}
               draggable={"false"}
               userSelect={"none"}
-              boxSize={"630px"}
+              boxSize={"480px"}
               bg={"#5880ca"}
               borderRadius={"5%"}
             />
@@ -91,7 +102,7 @@ function Signin() {
           flexDir={"column"}
           alignItems={"center"}
           p={{ base: 4, md: 32, xl: 48 }}
-          pt={{ base: 12, xl: 24 }}
+          pt={{ base: 12, xl: "4vh" }}
           gap={12}
           whiteSpace={"nowrap"}
         >
@@ -110,32 +121,40 @@ function Signin() {
             </Heading>
           </Flex>
           <Flex flexDir={"column"} alignItems={"center"} gap={6} w={"100%"}>
-            <InputGroup w={"100%"} bg={"gray.50"}>
-              <InputRightElement pointerEvents="none" mt={2} mr={2}>
-                <Icon as={FaUser} color="gray.300" boxSize={6} />
-              </InputRightElement>
-              <Input
-                type="text"
-                placeholder="Username"
-                color={"gray.600"}
-                h={14}
-                fontSize={"17px"}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-            </InputGroup>
-            <InputGroup w={"100%"} bg={"gray.50"}>
-              <InputRightElement pointerEvents="none" mt={2} mr={2}>
-                <Icon as={FaLock} color="gray.300" boxSize={6} />
-              </InputRightElement>
-              <Input
-                type="password"
-                placeholder="Password"
-                color={"gray.600"}
-                h={14}
-                fontSize={"17px"}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </InputGroup>
+            <FormControl isInvalid={credentialsError != ""} bg={"white"}>
+              <InputGroup w={"100%"} bg={"gray.50"}>
+                <InputRightElement pointerEvents="none" mt={2} mr={2}>
+                  <Icon as={FaUser} color="gray.300" boxSize={6} />
+                </InputRightElement>
+                <Input
+                  type="text"
+                  placeholder="Username"
+                  color={"gray.600"}
+                  h={14}
+                  fontSize={"17px"}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+              </InputGroup>
+            </FormControl>
+            <FormControl isInvalid={credentialsError != ""} bg={"white"}>
+              <InputGroup w={"100%"} bg={"gray.50"}>
+                <InputRightElement pointerEvents="none" mt={2} mr={2}>
+                  <Icon as={FaLock} color="gray.300" boxSize={6} />
+                </InputRightElement>
+                <Input
+                  type="password" 
+                  placeholder="Password"
+                  color={"gray.600"}
+                  h={14}
+                  fontSize={"17px"}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </InputGroup>
+              <FormErrorMessage pl={1} mb={-4}>
+                  {credentialsError}
+                </FormErrorMessage>
+            </FormControl>
+
             <Button
               size={"lg"}
               colorScheme="blue"
@@ -147,7 +166,9 @@ function Signin() {
               Login
             </Button>
             <Link color={"blue.400"}>Log-in as a Guest</Link>
-            <Link color={"blue.400"} href={"/sign-up/"}>Create new account</Link>
+            <Link color={"blue.400"} href={"/sign-up/"}>
+              Create new account
+            </Link>
           </Flex>
         </Flex>
       </Grid>

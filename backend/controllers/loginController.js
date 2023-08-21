@@ -13,7 +13,12 @@ exports.login_user = asyncHandler(async (req, res, next) => {
   const user = await User.findOne({username: username  }).exec();
   
   if (!user) {
-    return res.status(400).json({ error: "No user with such username" });
+    res.send({
+      message: "Invalid credentials!",
+      field: "username-password",
+      fulfilled: false,
+    });
+    return;
   }
 
   //Compare passwords with bcrypt.compare method
@@ -22,7 +27,12 @@ exports.login_user = asyncHandler(async (req, res, next) => {
 
   const match = await bcrypt.compare(password, user.password);
   if (!match) {
-    return res.status(401).json({ error: "The password is incorrect" });
+    res.send({
+      message: "Invalid credentials!",
+      field: "username-password",
+      fulfilled: false,
+    });
+    return;
   }
 
   const token = jwt.sign(
@@ -34,5 +44,5 @@ exports.login_user = asyncHandler(async (req, res, next) => {
     { expiresIn: jwtExpiresIn }
   );
 
-  res.status(200).json({ token });
+  res.status(200).json({ token, fulfilled: true});
 });
