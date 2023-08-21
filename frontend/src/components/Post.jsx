@@ -8,7 +8,6 @@ import {
   Icon,
   CardHeader,
   CardBody,
-  Circle,
   Menu,
   MenuButton,
   MenuList,
@@ -127,7 +126,7 @@ function Post(props) {
               {props.author}
             </Heading>
             <Text color={"gray.400"}>
-              {timeSince(new Date(props.datePosted))}
+              {timeSince(new Date(props.datePosted))} ago
             </Text>
           </Flex>
         </CardHeader>
