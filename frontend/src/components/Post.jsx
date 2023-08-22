@@ -27,6 +27,7 @@ import axios from "axios";
 import { getTokenFromLocalStorage } from "../hooks/common";
 import { useEffect, useState } from "react";
 
+import * as Constants from "../Constants";
 import TextContent from "./TextContent";
 
 function timeSince(date) {
@@ -76,19 +77,19 @@ function Post(props) {
 
   const handleClickCopyLink = () => {
     navigator.clipboard.writeText(
-      `http://localhost:5173/post-view/${props._id}`
+      `${Constants.WEBSITE_URL}/post-view/${props._id}`
     );
     copyLinkToast();
   };
   const handleClickViewPost = () => {
-    window.open(`http://localhost:5173/post-view/${props._id}`);
+    window.open(`${Constants.WEBSITE_URL}/post-view/${props._id}`);
   };
   const handleDeletePost = async () => {
     const token = getTokenFromLocalStorage();
 
     const response = await axios({
       method: "DELETE",
-      url: `http://localhost:3000/posts/delete/${props._id}`,
+      url: `${Constants.SERVER_URL}/posts/delete/${props._id}`,
       data: {},
       headers: {
         Authorization: `Bearer ${token}`,
@@ -108,7 +109,7 @@ function Post(props) {
     const token = getTokenFromLocalStorage();
     await axios({
       method: "POST",
-      url: `http://localhost:3000/posts/like/${props._id}`,
+      url: `${Constants.SERVER_URL}/posts/like/${props._id}`,
       data: {},
       headers: {
         Authorization: `Bearer ${token}`,
@@ -158,7 +159,7 @@ function Post(props) {
 
       const response = await axios({
         method: "GET",
-        url: `http://localhost:3000/posts/liked/${props._id}`,
+        url: `${Constants.SERVER_URL}/posts/liked/${props._id}`,
         data: {},
         headers: {
           Authorization: `Bearer ${token}`,
@@ -172,7 +173,7 @@ function Post(props) {
     async function getAuthorDisplayName() {
       const response = await axios({
         method: "GET",
-        url: `http://localhost:3000/users/${props.authorId}/displayName`,
+        url: `${Constants.SERVER_URL}/users/${props.authorId}/displayName`,
         data: {},
       });
 

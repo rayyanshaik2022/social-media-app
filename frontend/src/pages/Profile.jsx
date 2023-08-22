@@ -16,6 +16,7 @@ import { useUser } from "../hooks/UseUser";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { getTokenFromLocalStorage } from "../hooks/common";
+import * as Constants from "../Constants";
 
 function Profile() {
   const { user, authenticated } = useUser("/profile");
@@ -31,7 +32,7 @@ function Profile() {
       const token = getTokenFromLocalStorage();
       const response = await axios({
         method: "POST",
-        url: `http://localhost:3000/users/${user._id}/profile`,
+        url: `${Constants.SERVER_URL}/users/${user._id}/profile`,
         data: {
           newDisplayName: inputDisplayName,
           newLocation: inputLocation

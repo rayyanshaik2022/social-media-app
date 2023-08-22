@@ -20,6 +20,7 @@ import eatingBreakfast from "../assets/eatingbreakfast.svg";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
+import * as Constants from "../Constants";
 
 function Signup() {
   const navigate = useNavigate();
@@ -76,7 +77,7 @@ function Signup() {
       setIsLoading(true);
       const response = await axios({
         method: "POST",
-        url: "http://localhost:3000/log-in",
+        url: `${Constants.SERVER_URL}/log-in`,
         data: {
           username: "Guest",
           password: "password",

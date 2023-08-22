@@ -6,6 +6,8 @@ import Post from "./Post";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
+import * as Constants from "../Constants";
+
 function Feed(props) {
   const [currentPosts, setCurrentPosts] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -14,7 +16,7 @@ function Feed(props) {
     async function getData() {
       const response = await axios({
         method: "GET",
-        url: "http://localhost:3000/posts/",
+        url: `${Constants.SERVER_URL}/posts/`,
         data: {},
       });
 

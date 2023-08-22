@@ -1,5 +1,6 @@
 import { Text, Flex, Link } from "@chakra-ui/react";
 import { useState } from "react";
+import * as Constants from "../Constants";
 
 function TextContent(props) {
   const splitByAtWords = (str) => {
@@ -18,7 +19,7 @@ function TextContent(props) {
           display={"inline"}
           key={text + index}
           fontSize={18}
-          href={`http://localhost:5173/profile/${text.substring(1)}`}
+          href={`${Constants.WEBSITE_URL}/profile/${text.substring(1)}`}
         >
           {text}
         </Link>

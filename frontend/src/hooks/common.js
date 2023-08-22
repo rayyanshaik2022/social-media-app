@@ -1,4 +1,6 @@
 import axios from 'axios';
+import * as Constants from "../Constants";
+
 export function storeTokenInLocalStorage(token) {
   localStorage.setItem('token', token);
 }
@@ -20,7 +22,7 @@ export async function getAuthenticatedUser() {
     }
     const response = await axios({
       method: 'GET',
-      url: "http://localhost:3000/auth/me",
+      url: `${Constants.SERVER_URL}/auth/me`,
       headers: {
         Authorization: `Bearer ${token}`
       }

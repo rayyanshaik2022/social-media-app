@@ -14,6 +14,7 @@ import { useUser } from "../hooks/UseUser";
 import { AiFillPicture } from "react-icons/ai";
 import axios from "axios";
 import { getTokenFromLocalStorage } from "../hooks/common";
+import * as Constants from "../Constants";
 
 function NewPost(props) {
   const [textContent, setTextContent] = useState("");
@@ -35,7 +36,7 @@ function NewPost(props) {
 
       const response = await axios({
         method: "POST",
-        url: "http://localhost:3000/posts/new",
+        url: `${Constants.SERVER_URL}/posts/new`,
         data: newPost,
         headers: {
           Authorization: `Bearer ${token}`,

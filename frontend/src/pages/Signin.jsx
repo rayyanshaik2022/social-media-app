@@ -22,6 +22,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../hooks/UseUser";
 import { storeTokenInLocalStorage } from "../hooks/common";
+import * as Constants from "../Constants";
 
 function Signin() {
   const navigate = useNavigate();
@@ -40,7 +41,7 @@ function Signin() {
       setIsLoading(true);
       const response = await axios({
         method: "POST",
-        url: "http://localhost:3000/log-in",
+        url: `${Constants.SERVER_URL}/log-in`,
         data: {
           username,
           password,
@@ -74,7 +75,7 @@ function Signin() {
       setIsLoading(true);
       const response = await axios({
         method: "POST",
-        url: "http://localhost:3000/log-in",
+        url: `${Constants.SERVER_URL}/log-in`,
         data: {
           username: "Guest",
           password: "password",

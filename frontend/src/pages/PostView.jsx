@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import * as Constants from "../Constants";
 
 function PostView() {
   const { user, authenticated } = useUserAnonymous();
@@ -20,7 +21,7 @@ function PostView() {
     async function getData() {
       const response = await axios({
         method: "GET",
-        url: `http://localhost:3000/posts/single/${id}`,
+        url: `${Constants.SERVER_URL}/posts/single/${id}`,
         data: {
         },
       });
