@@ -9,11 +9,11 @@ const UserSchema = new Schema({
   password: { type: String, required: true },
   displayName: { type: String, required: true },
   joinDate: { type: Date, default: Date.now },
-  posts: { type: Array, default: [] },
-  liked: { type: Array, default: [] },
-  groups: { type: Array, default: [] },
-  friends: { type: Array, default: [] },
-  notifications: {type: Array, default: []},
+  posts: { type: Schema.Types.Array, default: [] },
+  liked: { type: Schema.Types.Array, default: [] },
+  groups: { type: Schema.Types.Array, default: [] },
+  friends: { type: Schema.Types.Array, default: [] },
+  notifications: {type: Schema.Types.Array, default: []},
   location: {type: String, default: "Earth, Milky Way Galaxy"}
 });
 

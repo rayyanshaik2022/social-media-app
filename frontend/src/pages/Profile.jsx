@@ -13,7 +13,8 @@ import { UnlockIcon, LockIcon } from "@chakra-ui/icons";
 import Navbar from "../components/Navbar";
 
 import { useUser } from "../hooks/UseUser";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 function Profile() {
   const { user, authenticated } = useUser("/profile");
@@ -23,6 +24,11 @@ function Profile() {
   const [inputLocation, setInputLocation] = useState("");
 
   const onClickEditInput = () => {
+
+    // when click is to LOCK
+    if (editInput) {
+      null
+    }
     setEditInput(!editInput);
   };
 
@@ -33,6 +39,18 @@ function Profile() {
   const onChangeLocation = (e) => {
     setInputLocation(e.target.value);
   };
+
+  useEffect(() => {
+    async function getData() {
+      try {
+        setInputDisplayName(user.displayName);
+        setInputLocation(user.location);
+      } catch {
+        null;
+      }
+    }
+    getData();
+  }, [user]);
 
   if (!authenticated) {
     return <></>;
@@ -70,7 +88,7 @@ function Profile() {
             flexDir={{ base: "column", md: "row" }}
           >
             <Avatar
-              name="Dan Abrahmov"
+              name={user.username}
               w={{ base: "60px", sm: "80px" }}
               h={{ base: "60px", sm: "80px" }}
             />

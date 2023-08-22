@@ -104,7 +104,7 @@ function Post(props) {
     isLiked ? setLikes(likes - 1) : setLikes(likes + 1);
 
     const token = getTokenFromLocalStorage();
-    const response = await axios({
+    await axios({
       method: "POST",
       url: `http://localhost:3000/posts/like/${props._id}`,
       data: {},

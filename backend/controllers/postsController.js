@@ -62,8 +62,18 @@ exports.delete_single_post = asyncHandler(async (req, res, next) => {
 
     const decoded = jwt.verify(token, jwtSecret);
 
+    const user = await User.findOne({username: decoded.username}).exec();
+    const filterPosts = user.posts.filter((id) =>  id != req.params.id);
+
+    // $set should be replaced with $pull for efficiency
+    const result = await User.updateOne(
+      { username: decoded.username },
+      { $set: { posts: filterPosts } }
+    ).exec();
+
+
     await Post.deleteOne({ author: decoded.username, _id: req.params.id });
-    res.status(200).json({ fulfilled: true, remove: post });
+    await res.status(200).json({ fulfilled: true, remove: post });
   } catch (err) {
     res.status(400).json({ ...defaultReturnObject, fulfilled: false });
   }

@@ -16,3 +16,19 @@ exports.get_user_displayName = asyncHandler(async (req, res, next) => {
     res.json({ fulfilled: false });
   }
 });
+
+exports.get_user_profile = asyncHandler(async (req, res, next) => {
+  try {
+    const user = await User.findOne({ _id: req.params.id }).exec();
+    res.json({
+      username: user.username,
+      displayName: user.displayName,
+      joinDate: user.joinDate,
+      location: user.location,
+      posts: user.posts,
+      fulfilled: true,
+    });
+  } catch (err) {
+    res.json({ fulfilled: false });
+  }
+});

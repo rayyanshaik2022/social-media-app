@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const PostSchema = new Schema({
     author: { type: String, required: true},
-    authorId: {type: String, required: true},
+    authorId: {type: Schema.Types.ObjectId, required: true},
     datePosted: { type: Date, default: Date.now},
     textContent: { type: String, required: true },
     likes: { type: Number, default: 0}
