@@ -220,7 +220,7 @@ function Post(props) {
         </Menu>
 
         <CardHeader display={"flex"}>
-          <Avatar name={props.author} w={16} h={16} mr={4} />
+          <Avatar name={authorDisplayName} w={16} h={16} mr={4} />
           <Flex
             flexDir={"column"}
             alignItems={"left"}

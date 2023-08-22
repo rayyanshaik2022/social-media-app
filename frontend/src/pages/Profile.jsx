@@ -15,6 +15,7 @@ import Navbar from "../components/Navbar";
 import { useUser } from "../hooks/UseUser";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { getTokenFromLocalStorage } from "../hooks/common";
 
 function Profile() {
   const { user, authenticated } = useUser("/profile");
@@ -23,13 +24,31 @@ function Profile() {
   const [inputDisplayName, setInputDisplayName] = useState("");
   const [inputLocation, setInputLocation] = useState("");
 
-  const onClickEditInput = () => {
-
+  const onClickEditInput = async () => {
+    
     // when click is to LOCK
     if (editInput) {
-      null
+      const token = getTokenFromLocalStorage();
+      const response = await axios({
+        method: "POST",
+        url: `http://localhost:3000/users/${user._id}/profile`,
+        data: {
+          newDisplayName: inputDisplayName,
+          newLocation: inputLocation
+        },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+  
+      if (response.data.fulfilled) {
+        setEditInput(!editInput);
+        window.location.reload();
+      } 
+    } else {
+      setEditInput(!editInput);
     }
-    setEditInput(!editInput);
+    
   };
 
   const onChangeDisplayName = (e) => {
@@ -88,7 +107,7 @@ function Profile() {
             flexDir={{ base: "column", md: "row" }}
           >
             <Avatar
-              name={user.username}
+              name={user.displayName}
               w={{ base: "60px", sm: "80px" }}
               h={{ base: "60px", sm: "80px" }}
             />

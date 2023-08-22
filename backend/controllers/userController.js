@@ -32,3 +32,32 @@ exports.get_user_profile = asyncHandler(async (req, res, next) => {
     res.json({ fulfilled: false });
   }
 });
+
+exports.post_change_profile = asyncHandler(async (req, res, next) => {
+  const defaultReturnObject = { authenticated: false, user: null };
+  try {
+    const token = String(req.headers.authorization.replace("Bearer ", ""));
+    const decoded = jwt.verify(token, jwtSecret);
+    const userId = req.params.id;
+
+    const user = await User.findOne({ username: decoded.username }).exec();
+    const newDisplayName = req.body.newDisplayName;
+    const newLocation = req.body.newLocation;
+
+    if (
+      newDisplayName.length >= 2 &&
+      newDisplayName.length <= 20 &&
+      newLocation.length <= 24
+    ) {
+      await User.updateOne(
+        { username: decoded.username },
+        { displayName: newDisplayName, location: newLocation }
+      ).exec();
+      res.status(200).json({ fulfilled: true });
+    } else {
+      res.json({ message: "Invalid display name or location", fulfilled: false });
+    }
+  } catch (err) {
+    res.status(400).json({ ...defaultReturnObject, fulfilled: false });
+  }
+});
