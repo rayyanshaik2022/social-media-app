@@ -2,7 +2,7 @@
 
 ## Live Demo Link
 
-[Click here for demo](https://social-media-app-3k8.pages.dev/sign-in)
+[Click here for demo](https://social-media-app-3k8.pages.dev/sign-up)
 
 * Notice: The backend server runs on a free trialing service which goes "asleep"/"idle" after some time. Please give the website 3-5 minutes for the initial load.
 
