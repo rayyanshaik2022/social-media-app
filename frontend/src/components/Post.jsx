@@ -27,6 +27,8 @@ import axios from "axios";
 import { getTokenFromLocalStorage } from "../hooks/common";
 import { useEffect, useState } from "react";
 
+import TextContent from "./TextContent";
+
 function timeSince(date) {
   var seconds = Math.floor((new Date() - date) / 1000);
 
@@ -243,7 +245,7 @@ function Post(props) {
         </CardHeader>
 
         <CardBody pt={0}>
-          <Text fontSize={18}>{props.textContent}</Text>
+          <TextContent text={props.textContent} />
         </CardBody>
 
         <Flex flexDir={"column"} p={2}>
