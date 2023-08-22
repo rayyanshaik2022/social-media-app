@@ -1,5 +1,5 @@
 import axios from 'axios';
-import * as Constants from "../Constants";
+import * as Constants from "../constants";
 
 export function storeTokenInLocalStorage(token) {
   localStorage.setItem('token', token);

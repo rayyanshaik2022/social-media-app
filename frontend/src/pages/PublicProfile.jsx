@@ -15,7 +15,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useUserAnonymous } from "../hooks/UseUserAnonymous";
-import * as Constants from "../Constants";
+import * as Constants from "../constants";
 
 function PublicProfile() {
   const { user, authenticated } = useUserAnonymous();

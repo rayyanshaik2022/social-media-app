@@ -22,7 +22,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../hooks/UseUser";
 import { storeTokenInLocalStorage } from "../hooks/common";
-import * as Constants from "../Constants";
+import * as Constants from "../constants";
 
 function Signin() {
   const navigate = useNavigate();

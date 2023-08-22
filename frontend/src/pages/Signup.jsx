@@ -20,7 +20,7 @@ import eatingBreakfast from "../assets/eatingbreakfast.svg";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
-import * as Constants from "../Constants";
+import * as Constants from "../constants";
 
 function Signup() {
   const navigate = useNavigate();

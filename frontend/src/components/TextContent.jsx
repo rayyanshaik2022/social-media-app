@@ -1,6 +1,6 @@
 import { Text, Flex, Link } from "@chakra-ui/react";
 import { useState } from "react";
-import * as Constants from "../Constants";
+import * as Constants from "../constants";
 
 function TextContent(props) {
   const splitByAtWords = (str) => {

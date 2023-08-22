@@ -14,7 +14,7 @@ import { useUser } from "../hooks/UseUser";
 import { AiFillPicture } from "react-icons/ai";
 import axios from "axios";
 import { getTokenFromLocalStorage } from "../hooks/common";
-import * as Constants from "../Constants";
+import * as Constants from "../constants";
 
 function NewPost(props) {
   const [textContent, setTextContent] = useState("");

@@ -16,7 +16,7 @@ import { useUser } from "../hooks/UseUser";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { getTokenFromLocalStorage } from "../hooks/common";
-import * as Constants from "../Constants";
+import * as Constants from "../constants";
 
 function Profile() {
   const { user, authenticated } = useUser("/profile");

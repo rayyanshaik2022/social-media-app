@@ -6,7 +6,7 @@ import Post from "./Post";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-import * as Constants from "../Constants";
+import * as Constants from "../constants";
 
 function Feed(props) {
   const [currentPosts, setCurrentPosts] = useState([]);
