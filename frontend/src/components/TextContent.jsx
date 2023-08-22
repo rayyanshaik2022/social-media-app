@@ -3,6 +3,9 @@ import { useState } from "react";
 
 function TextContent(props) {
   const splitByAtWords = (str) => {
+    if (!str) {
+      return []
+    }
     const regex = /(@\w+)/g;
     return str.split(regex);
   };
