@@ -49,7 +49,7 @@ function Signup() {
       setIsLoading(true);
       const response = await axios({
         method: "POST",
-        url: "http://localhost:3000/sign-up/",
+        url: `${Constants.SERVER_URL}/sign-up/`,
         data: {
           username,
           password,
