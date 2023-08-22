@@ -55,9 +55,36 @@ exports.post_change_profile = asyncHandler(async (req, res, next) => {
       ).exec();
       res.status(200).json({ fulfilled: true });
     } else {
-      res.json({ message: "Invalid display name or location", fulfilled: false });
+      res.json({
+        message: "Invalid display name or location",
+        fulfilled: false,
+      });
     }
   } catch (err) {
     res.status(400).json({ ...defaultReturnObject, fulfilled: false });
   }
 });
+
+exports.get_user_profile_from_username = asyncHandler(
+  async (req, res, next) => {
+    
+    try {
+      const user = await User.findOne({ username: req.params.username }).exec();
+      const profileObj = {
+        username: user.username,
+        displayName: user.displayName,
+        joinDate: user.joinDate,
+        location: user.location,
+        totalPosts: user.posts.length,
+        totalLiked: user.liked.length
+      }
+      
+      res.json({
+        profile: profileObj,
+        fulfilled: true,
+      });
+    } catch (err) {
+      res.json({ fulfilled: false });
+    }
+  }
+);

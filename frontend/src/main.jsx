@@ -41,6 +41,10 @@ const router = createBrowserRouter([
     element: <App page={"profile"} />
   },
   {
+    path: "/profile/:username",
+    element: <App page={"public-profile"} />
+  },
+  {
     path: "*",
     element: <App page={"sign-in"} />
   }

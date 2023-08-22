@@ -10,6 +10,8 @@ router.post('/:id/profile', user_controller.post_change_profile);
 
 router.get('/:id/profile', user_controller.get_user_profile);
 
+router.get('/profile/:username', user_controller.get_user_profile_from_username);
+
 
 
 

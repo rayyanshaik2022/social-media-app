@@ -3,6 +3,7 @@ import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
 import PostView from "./pages/PostView";
 import Profile from "./pages/Profile";
+import PublicProfile from "./pages/PublicProfile";
 
 function App(props) {
   if (props.page == "home") {
@@ -19,6 +20,9 @@ function App(props) {
   }
   if (props.page == "profile") {
     return <Profile />
+  }
+  if (props.page == "public-profile") {
+    return <PublicProfile />
   }
   return <></>;
 }

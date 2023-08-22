@@ -15,6 +15,7 @@ function TextContent(props) {
           display={"inline"}
           key={text + index}
           fontSize={18}
+          href={`http://localhost:5173/profile/${text.substring(1)}`}
         >
           {text}
         </Link>
@@ -28,7 +29,7 @@ function TextContent(props) {
     }
   };
 
-  const [splitText, setSplitText] = useState(splitByAtWords(props.text));
+  const [splitText] = useState(splitByAtWords(props.text));
 
   return (
     <Flex gap={"4px"}>
