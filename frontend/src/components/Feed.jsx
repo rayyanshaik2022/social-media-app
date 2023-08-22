@@ -1,4 +1,4 @@
-import { Flex } from "@chakra-ui/react";
+import { Flex, Box } from "@chakra-ui/react";
 
 import NewPost from "./NewPost";
 import Post from "./Post";
@@ -51,6 +51,7 @@ function Feed(props) {
         {currentPosts.map(post => (
           <Post key={post._id} {...post} />
         ))}
+        <Box h={"16vh"}></Box>
       </Flex>
     </>
   );
