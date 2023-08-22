@@ -12,18 +12,28 @@ import {
   Link,
   FormControl,
   FormErrorMessage,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
+  Text
 } from "@chakra-ui/react";
 
 import { storeTokenInLocalStorage } from "../hooks/common";
 import { FaUser, FaLock } from "react-icons/fa";
 import eatingBreakfast from "../assets/eatingbreakfast.svg";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import * as Constants from "../constants";
 
 function Signup() {
   const navigate = useNavigate();
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -92,6 +102,12 @@ function Signup() {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    onOpen();
+
+  }, [])
+  
 
   return (
     <>
@@ -226,6 +242,25 @@ function Signup() {
           </Flex>
         </Flex>
       </Grid>
+
+      <Modal isOpen={isOpen} onClose={onClose} isCentered>
+        <ModalOverlay />
+        <ModalContent >
+          <ModalHeader fontSize={24}>Website Disclaimer</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Text fontSize={20}>[ <strong>!</strong> ] This website is intended to be used as a demo project for Rayyan Shaik's portfolio</Text>
+            <br />
+            <Text fontSize={20}>[ <strong>!</strong> ] Please wait about <strong>3 minutes</strong> for the server to startup. While the server is "asleep" log-in and home page functionality will not work</Text>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme='blue' mr={3} onClick={onClose}>
+              Close
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </>
   );
 }
