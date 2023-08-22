@@ -22,6 +22,7 @@ exports.create_post = asyncHandler(async (req, res, next) => {
 
     const newPost = new Post({
       author: req.body.author,
+      authorId: req.body.authorId,
       textContent: req.body.textContent,
     });
     await newPost.save();
@@ -32,7 +33,7 @@ exports.create_post = asyncHandler(async (req, res, next) => {
       { $push: { posts: newPost._id } }
     );
 
-    const postList = await Post.find({}).sort({ datePosted: -1 }).limit(20);
+    const postList = await Post.find({}).sort({ datePosted: -1 }).limit(100);
 
     res.status(200).json({ fulfilled: true, posts: postList });
   } catch (err) {

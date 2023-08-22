@@ -13,7 +13,8 @@ const UserSchema = new Schema({
   liked: { type: Array, default: [] },
   groups: { type: Array, default: [] },
   friends: { type: Array, default: [] },
-  notifications: {type: Array, default: []}
+  notifications: {type: Array, default: []},
+  location: {type: String, default: "Earth, Milky Way Galaxy"}
 });
 
 UserSchema.pre('save', async function () {

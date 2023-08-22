@@ -24,6 +24,7 @@ function NewPost(props) {
   const createPost = async () => {
     const newPost = {
       author: user.username,
+      authorId: user._id,
       textContent: textContent,
     };
 

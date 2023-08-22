@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { getAuthenticatedUser } from './common';
 import { useNavigate } from 'react-router-dom';
 
-export function useUser() {
+export function useUser(page="/home") {
   const [user, setUser] = useState(null);
   const [authenticated, setAuthenticated] = useState(false);
   const navigate = useNavigate();
@@ -16,7 +16,7 @@ export function useUser() {
       }
       setUser(user);
       setAuthenticated(authenticated);
-      navigate("/home/");
+      navigate(page);
     }
     getUserDetails();
   }, []);

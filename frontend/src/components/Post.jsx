@@ -70,6 +70,7 @@ function Post(props) {
   const [isDeleted, setIsDeleted] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [likes, setLikes] = useState(props.likes);
+  const [authorDisplayName, setAuthorDisplayName] = useState("< error >");
 
   const handleClickCopyLink = () => {
     navigator.clipboard.writeText(
@@ -92,7 +93,6 @@ function Post(props) {
       },
     });
 
-    console.log(response.data);
     if (response.data.fulfilled) {
       setIsDeleted(true);
       deleteToast();
@@ -112,8 +112,6 @@ function Post(props) {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log(response.data)
-
   };
 
   const toast = useToast();
@@ -154,7 +152,6 @@ function Post(props) {
     }
 
     async function getLikedFunc() {
-
       const token = getTokenFromLocalStorage();
 
       const response = await axios({
@@ -165,11 +162,21 @@ function Post(props) {
           Authorization: `Bearer ${token}`,
         },
       });
-      
-      console.log("liked", response.data.liked)
+
       setIsLiked(response.data.liked);
     }
-    getLikedFunc()
+    getLikedFunc();
+
+    async function getAuthorDisplayName() {
+      const response = await axios({
+        method: "GET",
+        url: `http://localhost:3000/users/${props.authorId}/displayName`,
+        data: {},
+      });
+
+      setAuthorDisplayName(response.data.displayName);
+    }
+    getAuthorDisplayName();
   }, []);
 
   if (isDeleted) {
@@ -220,9 +227,15 @@ function Post(props) {
             justifyContent={"center"}
             h={16}
           >
-            <Heading fontSize={"lg"} color={"blue.700"}>
-              {props.author}
-            </Heading>
+            <Flex alignItems={"center"} gap={2}>
+              <Heading fontSize={"lg"} color={"blue.700"}>
+                {authorDisplayName}
+              </Heading>
+              <Text color={"gray.400"} fontSize={16} display="inline">
+                @{props.author}
+              </Text>
+            </Flex>
+
             <Text color={"gray.400"}>
               {timeSince(new Date(props.datePosted))} ago
             </Text>

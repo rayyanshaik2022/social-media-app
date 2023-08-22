@@ -37,6 +37,10 @@ const router = createBrowserRouter([
     element: <App page={"post-view"} />
   },
   {
+    path: "/profile",
+    element: <App page={"profile"} />
+  },
+  {
     path: "*",
     element: <App page={"sign-in"} />
   }

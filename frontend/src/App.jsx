@@ -2,6 +2,7 @@ import Home from "./pages/Home";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
 import PostView from "./pages/PostView";
+import Profile from "./pages/Profile";
 
 function App(props) {
   if (props.page == "home") {
@@ -15,6 +16,9 @@ function App(props) {
   }
   if (props.page == "post-view") {
     return <PostView />
+  }
+  if (props.page == "profile") {
+    return <Profile />
   }
   return <></>;
 }

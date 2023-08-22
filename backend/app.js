@@ -86,9 +86,10 @@ app.get("/auth/me", async (req, res) => {
     }
 
     delete nextUser.password;
+
     res.status(200).json({ authenticated: true, user: nextUser });
   } catch (err) {
-    console.log("POST auth/me, Something Went Wrong", err);
+    console.log("POST auth/me, Something Went Wrong");
     res.status(400).json(defaultReturnObject);
   }
 });

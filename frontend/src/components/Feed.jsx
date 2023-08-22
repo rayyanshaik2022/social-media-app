@@ -39,7 +39,7 @@ function Feed(props) {
       <Flex
         flexDir={"column"}
         bg={"gray.50"}
-        minH={"calc(100vh - 110px)"}
+        minH={{base: "calc(100vh - 70px)", lg: "calc(100vh - 110px)"}}
         boxShadow={"2xl"}
         padding={{ base: 2, sm: 10 }}
         zIndex={2}

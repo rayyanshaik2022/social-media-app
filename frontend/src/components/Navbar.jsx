@@ -23,15 +23,22 @@ import { FaUser, FaBell, FaHome, FaUsers } from "react-icons/fa";
 
 import { selfExpireTokenInLocalStorage } from "../hooks/common";
 
-
 function Navbar(props) {
   const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
   const navigate = useNavigate();
 
   const handleClickSignOut = () => {
     navigate("/sign-in");
-    selfExpireTokenInLocalStorage()
-  }
+    selfExpireTokenInLocalStorage();
+  };
+
+  const handleClickHome = () => {
+    navigate("/home");
+  };
+
+  const handleClickProfile = () => {
+    navigate("/profile");
+  };
 
   if (isLargerThan768) {
     return (
@@ -70,14 +77,13 @@ function Navbar(props) {
             <MenuButton
               as={IconButton}
               aria-label="Options"
-              icon={
-                <Icon as={FaUser} boxSize={6} color={"#9ac9f5"} />
-              }
+              icon={<Icon as={FaUser} boxSize={6} color={"#9ac9f5"} />}
               variant="outline"
               border={"0px"}
             />
             <MenuList zIndex={2}>
-              <MenuItem>Profile</MenuItem>
+              <MenuItem onClick={handleClickHome}>Home</MenuItem>
+              <MenuItem onClick={handleClickProfile}>Profile</MenuItem>
               <MenuItem onClick={handleClickSignOut}>Sign Out</MenuItem>
             </MenuList>
           </Menu>
@@ -128,13 +134,12 @@ function Navbar(props) {
             <MenuButton
               as={IconButton}
               aria-label="Options"
-              icon={
-                <Icon as={FaUser} boxSize={6} color={"#9ac9f5"} />
-              }
+              icon={<Icon as={FaUser} boxSize={6} color={"#9ac9f5"} />}
               variant="outline"
               border={"0px"}
             />
             <MenuList zIndex={2}>
+              <MenuItem onClick={handleClickHome}>Home</MenuItem>
               <MenuItem>Profile</MenuItem>
               <MenuItem onClick={handleClickSignOut}>Sign Out</MenuItem>
             </MenuList>
